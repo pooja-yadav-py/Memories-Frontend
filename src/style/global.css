@@ -1,0 +1,24 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.main{
+    position: absolute;   
+    left: 50%;    
+    margin-top: 43px;
+    background-color: white;
+     box-shadow: rgba(0, 0, 0, 0.65) 0px -5px 15px;
+     border-radius: 15px;  
+}
+.signIn{
+    margin-top: 13px;
+}
+.signup{
+    margin-top: 0px;
+}
+/* .logo{
+    background-image: url('../images/lotus.webp');
+   
+    
+} */
