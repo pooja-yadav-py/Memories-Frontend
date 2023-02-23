@@ -1,0 +1,33 @@
+import React from 'react';
+import { Menu, MenuItem } from '@mui/material';
+import { useState } from 'react';
+
+function ProfileMenus(props) {
+    const {setAnchorEl,setProfileMenuOpen,anchorEl,profileMenus} = props
+    
+    const profileMenuHandleClose = () => {
+        setAnchorEl(null);
+        setProfileMenuOpen(false)
+    }  
+    const handleCloseLogout = () =>{
+        setAnchorEl(null);
+        setProfileMenuOpen(false);
+        window.localStorage.clear("token");
+        window.location.href = "/login";
+    }
+    
+
+    return (
+        <>
+            <Menu
+                anchorEl={anchorEl}
+                open={profileMenus}
+                onClose={profileMenuHandleClose}>
+                <MenuItem onClick={profileMenuHandleClose}>Setting</MenuItem>
+                <MenuItem onClick={handleCloseLogout}>Logout</MenuItem>
+            </Menu>
+        </>
+    )
+}
+
+export default ProfileMenus;

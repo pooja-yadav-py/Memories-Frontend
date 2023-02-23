@@ -1,0 +1,43 @@
+
+.toolbar-container{
+    color: #000;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;    
+}
+.menuButtonShow{   
+    position: absolute;
+    top: 14px;
+    left: 90px;
+    cursor: pointer;
+}
+.closeMenuButtonShow{
+    position: absolute;
+    top: 14px;
+    left: 28px;
+    cursor: pointer;
+    font-size: 20px;
+}
+.closeMenuButtonShowHide{
+    display: none;
+}
+.expandButton{
+    width: 80px;   
+    display: flex;
+    justify-content: space-between;
+    cursor:pointer;
+}
+.Icon-Button{
+   font-size: 25px;
+}
+.hide{
+    display: none;
+}
+.menuButtonHide{
+    display: none;
+}
+.MuiDrawer-paper{
+    /* top: 20% !important; */
+    z-index: 0 !important;
+}
+
