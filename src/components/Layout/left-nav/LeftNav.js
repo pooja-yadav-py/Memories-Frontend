@@ -111,7 +111,7 @@ function LeftNav(props) {
                   }}
                 >
                   {/* <PeopleIcon /> */}
-                  {index % 2 === 0 ? <PeopleIcon  style={{color:'#dd0f78',backgroundColor:'#680d2f',fontSize:'34px',}}/> : <MailIcon />}
+                  {index % 2 === 0 ? <PeopleIcon  style={{color:'#dd0f78',fontSize:'34px',}}/> : <MailIcon />}
                 </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: props.open ? 1 : 0 }} />
               </ListItemButton>

@@ -9,6 +9,11 @@ import { Container } from '@mui/system';
 function Home() {
         
     const [userData, setUserData] = useState(null);
+    
+    const Logout = () =>{       
+        window.localStorage.clear("token");
+        window.location.href = "/login";
+    }
     useEffect(() => {
 
         async function userDetail() {

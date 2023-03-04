@@ -1,0 +1,22 @@
+.paper{
+    width: 40%;
+    margin: auto;    
+}
+.form{
+    padding: 5%;
+}
+.form .mamory-header{
+    width: 58%;
+    margin: auto;
+    font-family: Georgia, serif;
+    font-weight: bold;
+    color: rgb(221, 15, 120);
+    font-size: 25px;    
+}
+/* .fileInput{
+    margin-bottom: 20px;
+} */
+
+/* .form div{
+    padding-top: 10px;
+} */
