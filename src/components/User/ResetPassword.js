@@ -43,9 +43,9 @@ function ResetPassword() {
             let response = await axios.post(`${process.env.REACT_APP_BASE_URL}resetpassword`, postData, { headers: headers })
             
             if (response.data.success === true) {
-                let a = toast.success(response.data.message);                
+                toast.success(response.data.message);                
                 setPassword('');
-                //window.location.href="/login";                            
+                window.location.href="/login";                            
             } else {
                 setMessage(response.data.message)
             }
@@ -96,7 +96,7 @@ function ResetPassword() {
             </div>
             <ToastContainer
                 position="top-center"
-                autoClose={2000}
+                autoClose={1000}
             />
         </div>
     )

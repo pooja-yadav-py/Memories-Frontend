@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { Link } from "react-router-dom";
+
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -19,7 +21,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import PeopleIcon from '@mui/icons-material/People';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
+import PermMediaIcon from '@mui/icons-material/PermMedia';
+import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural'; import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import "./LeftNavStyle.css";
 
@@ -76,47 +79,66 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 function LeftNav(props) {
-  console.log(props.open)
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-
+  const {open} = props
   
+  let admin = localStorage.getItem("isAdmin");
+  
+  const theme = useTheme();
+  // const [open, setOpen] = React.useState(false);
+
+
   const handleDrawerClose = () => {
     // console.log("handleDrawerClose")
     props.setOpen(false);
   };
+  
+  let menus = [
+    {name: "Memories", url:"/home", getIcon: () => <PermMediaIcon style={{ color: '#dd0f78', fontSize: '34px', }} />},
+    {name: "My Memories", url:"/usermemories", getIcon: () => <FaceRetouchingNaturalIcon style={{ color: '#dd0f78', fontSize: '34px', }} />},
+  ]
+  
+  let adminMenus = [
+    {name: "Users", url:"/userList", getIcon: () => <PeopleIcon style={{ color: '#dd0f78', fontSize: '34px', }} />},
+    {name: "Memories", url:"/home", getIcon: () => <PermMediaIcon style={{ color: '#dd0f78', fontSize: '34px', }} />},
+    {name: "My Memories", url:"/usermemories", getIcon: () => <FaceRetouchingNaturalIcon style={{ color: '#dd0f78', fontSize: '34px', }} />}, 
+  ]
+  console.log("111admin",typeof admin)
+  let result = (admin === "true" ? adminMenus : menus);
+  console.log("111result",result)
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <Drawer variant="permanent" open={props.open} >    
-      <div className="logoContainer" style={{fontSize:'30px',fontFamily: 'Georgia, serif',color:'gray',height:'10%'}}>
-        <marquee>&#128104;&#127995; Welcome &#128105;&#127995;</marquee>
-      </div>
-        <List >
-          {['Users'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: props.open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
+      <Drawer variant="permanent" open={props.open} >
+        <div className="logoContainer" style={{ fontSize: '30px', fontFamily: 'Georgia, serif', color: 'gray', height: '10%' }}>
+          <marquee>&#128104;&#127995; Welcome &#128105;&#127995;</marquee>
+        </div>
+        <List>          
+          {result.map((menu, index) => (
+            <ListItem key={index} disablePadding sx={{ display: 'block' }}>
+              <Link to={menu.url} style={{ textDecoration:'none',color:'black' }}>
+                <ListItemButton
                   sx={{
-                    minWidth: 0,
-                    mr: props.open ? 3 : 'auto',
-                    justifyContent: 'center',
+                    minHeight: 48,
+                    justifyContent: props.open ? 'initial' : 'center',
+                    px: 2.5,
                   }}
                 >
-                  {/* <PeopleIcon /> */}
-                  {index % 2 === 0 ? <PeopleIcon  style={{color:'#dd0f78',fontSize:'34px',}}/> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: props.open ? 1 : 0 }} />
-              </ListItemButton>
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: props.open ? 3 : 'auto',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    {menu.getIcon()}
+                  </ListItemIcon>
+                  <ListItemText primary={menu.name} sx={{ opacity: props.open ? 1 : 0 }} />
+                </ListItemButton>
+              </Link>
             </ListItem>
           ))}
+
         </List>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

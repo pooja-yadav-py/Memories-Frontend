@@ -1,4 +1,5 @@
-.paper{
+
+.paper{    
     width: 40%;
     margin: auto;    
 }
@@ -12,6 +13,11 @@
     font-weight: bold;
     color: rgb(221, 15, 120);
     font-size: 25px;    
+}
+.buttonSubmit a{
+    color: white;
+    text-decoration: none;
+    
 }
 /* .fileInput{
     margin-bottom: 20px;

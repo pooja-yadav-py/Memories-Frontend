@@ -39,12 +39,14 @@ function ForgetPassword() {
              }
              setLoading(true);
              let response = await axios.post(`${process.env.REACT_APP_BASE_URL}forgetpassword`, postData,{headers:headers});
+             console.log(response)
              setMessage(response.data.message);            
              
         }catch(err){
             console.log(err)
         }        
     }
+    console.log("message",message)
 
     return (
         <div className='outside_div'>
@@ -56,7 +58,7 @@ function ForgetPassword() {
                         </h1>
                         <h2 className="signIn" align="center" style={FORGOTPASSWORD_style.forgotPasswordText}>Forgot your password?</h2>
                         <h2 variant="h6" align="center" style={FORGOTPASSWORD_style.forgotPasswordMsgText}>Password reset instructions will be sent to the email address associated with your account.</h2>
-                        {message.length ? <span style={{ color: 'red', marginLeft:'2rem'}}>{message}</span> : ''}
+                        {message.length ? <p style={{ color: 'red', marginLeft:'1rem'}}>{message}</p> : ''}
 
                         <ValidatorForm onSubmit={submitForm}>
                             <h2 title="Enter Username">

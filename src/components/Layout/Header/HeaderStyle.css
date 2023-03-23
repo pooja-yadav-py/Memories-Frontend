@@ -40,4 +40,11 @@
     /* top: 20% !important; */
     z-index: 0 !important;
 }
+.create-post{
+    color: #3f51b5;
+    position: relative;
+    right: 35%;
+    top: 15%;
+    cursor: pointer;
+}
 

@@ -52,12 +52,14 @@ function Login() {
       }
       setLoading(true);
       let response = await axios.post(`${process.env.REACT_APP_BASE_URL}loginuser`, postData, { headers: headers })
-      
-      let { success,message,data } = response.data;     
+      console.log("response",response)
+      let { success,message,data,isAdmin,uname } = response.data;     
       if (success === true) {
         setMessage('');
         window.localStorage.setItem("token", data)
         window.localStorage.setItem("loggedIn", true)
+        window.localStorage.setItem("isAdmin",isAdmin)
+        window.localStorage.setItem("uname",uname)        
         window.location.href = "/home"
       }else{
         if(message)

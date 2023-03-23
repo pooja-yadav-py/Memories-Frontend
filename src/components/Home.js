@@ -2,7 +2,7 @@ import { Logout } from '@mui/icons-material';
 import react, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import axios from 'axios';
-import Header from './Layout/header/Header';
+import Header from './Layout/Header/Header';
 import { Container } from '@mui/system';
 
 

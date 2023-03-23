@@ -4,7 +4,19 @@ import Container from '@mui/material/Container';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { makeStyles } from '@mui/styles';
 
+
+let drawerWidth = 240
+const useStyles = makeStyles({
+    appbar: {
+        width: "100%",
+    },
+    appBarShift: {
+        width: `calc(100% - ${drawerWidth}px)!important`,
+        marginLeft: '18%!important',
+    }
+});
 
 const style = {
   position: 'absolute',
@@ -18,7 +30,8 @@ const style = {
   p: 4,
 };
 
-function Main() {
+function Main(props) {
+  const classes = useStyles();
   const [userList, setUserList] = useState([])
   
   useEffect(() => {
@@ -49,7 +62,7 @@ function Main() {
 
   return (
     <>
-      <Container minwidth="sm">
+      <Container minwidth="sm" className={props.open ? classes.appBarShift : classes.appbar}>
         <MaterialTable title="Users Details"          
           columns={columns}
           data={data}

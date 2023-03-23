@@ -13,6 +13,7 @@ function ProfileMenus(props) {
         setAnchorEl(null);
         setProfileMenuOpen(false);
         window.localStorage.clear("token");
+        localStorage.clear("isAdmin");
         window.location.href = "/login";
     }
     

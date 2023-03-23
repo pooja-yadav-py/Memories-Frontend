@@ -1,11 +1,16 @@
 import React from "react";
 import clsx from 'clsx';
+import { Link, Route, Routes } from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 // import MenuIcon from "@material-ui/icons/Menu";
 import MenuIcon from '@mui/icons-material/Menu';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Avatar } from "@mui/material";
+import Icon from '@mui/material/Icon';
+
+import Button from '@mui/material/Button';
+
 import './HeaderStyle.css';
 import ProfileMenu from "./ProfileMenus";
 import { makeStyles } from '@mui/styles';
@@ -38,7 +43,9 @@ function Header(props) {
         setProfileMenuOpen(true)
     }
 
-
+    const handleMemoryCreate = () => {
+        window.location.href = "/memory";
+    }
     return (
         <>
             <AppBar
@@ -49,8 +56,8 @@ function Header(props) {
                 <Toolbar>
                     <div className="toolbar-container" >
                         <div style={{ display: 'flex' }}>
-                            {!props.open?<Avatar alt="Small Logo" src={Logo} />:''}
-                            
+                            {!props.open ? <Avatar alt="Small Logo" src={Logo} /> : ''}
+
                             <span
                                 color="inherit"
                                 aria-label="open drawer"
@@ -67,9 +74,21 @@ function Header(props) {
                                 </span>
                             </div>
                         </div>
-                        <div>
+                        <div style={{ margin: 'auto' }}>
                             <h2>Our Memories</h2>
                         </div>
+                        <div>
+
+                            <Link to="/create">
+                                <Icon className="create-post" title="create Post" sx={{
+                                    fontSize: '30px'
+                                }}>add_circle</Icon>
+                            </Link>
+
+
+
+                        </div>
+                        {/* <Button variant="text" >Create</Button> */}
                         <div>
                             <div onClick={openProfileMenuHandleClick} className="expandButton">
                                 <span>{getProfilePhoto()}</span>
@@ -80,12 +99,11 @@ function Header(props) {
 
                     <ProfileMenu setAnchorEl={setAnchorEl} setProfileMenuOpen={setProfileMenuOpen} anchorEl={anchorEl} profileMenus={profileMenus} />
 
-
                 </Toolbar>
             </AppBar>
-
         </>
     );
 }
+
 
 export default Header;

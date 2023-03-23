@@ -82,13 +82,13 @@ function Signup() {
     <div className='outside_div'>
       <div style={{ height: '100vh', width: '100%', backgroundImage: `url("https://png.pngtree.com/background/20210711/original/pngtree-literary-cartoon-book-teaching-banner-poster-picture-image_1078154.jpg")`, backgroundSize: 'cover' }}>
         <Container className="inner-div" >
-          <Container className="main" component="main" style={{ height: '82%', width: '30%' }}  >
+          <Container className="main" component="main" style={{ height: '80%', width: '30%' }}  >
             <h1 align="center">
               <Avatar alt="App Logo" src={Logo} style={{ maxWidth: '250px', maxHeight: '75px', width: '35%', height: 'auto', margin: 'auto' }} />
             </h1>
             <h2 className="signup" align="center" >Sign up  </h2>
             {message.length ? <span style={{ color: 'red', marginLeft: '2rem' }}>{message}</span> : ''}
-            <ValidatorForm className="form" name="submitLoginForm" onSubmit={handleSignup} style={{ width: '80%', margin: 'auto', marginTop: '30px' }}>
+            <ValidatorForm className="form" name="submitLoginForm" onSubmit={handleSignup} style={{ width: '90%', margin: 'auto', marginTop: '16px' }}>
               <h2 title="Enter Username">
                 <TextField
                   id="outlined-basic"
@@ -100,9 +100,9 @@ function Signup() {
                   onChange={handlechange}
                 />
               </h2>
-              <FormControl variant="outlined" fullWidth>
-                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                <OutlinedInput
+              <FormControl variant="outlined" fullWidth sx={{ mt: 1 }}>
+                <InputLabel htmlFor="outlined-adornment-password"  >Password</InputLabel>
+                <OutlinedInput                
                   id="outlined-adornment-password"
                   name="password"
                   type={showPassword ? 'text' : 'password'}
@@ -125,7 +125,7 @@ function Signup() {
               </FormControl>
               <h2 title="Enter Username">
                 <TextField
-                  sx={{ mt: 1 }}
+                  sx={{ mt: 2 }}
                   id="outlined-basic"
                   label="Email"
                   name="email"
