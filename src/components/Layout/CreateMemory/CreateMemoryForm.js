@@ -1,8 +1,9 @@
 import React, { useState, useEffect }  from 'react';
 import './createMemory.css';
-import { useLocation } from "react-router-dom";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './createMemory.css';
 
 import { TextField, Typography, Button, Paper } from '@mui/material';
@@ -10,9 +11,14 @@ import { TextField, Typography, Button, Paper } from '@mui/material';
 
 function CreateMemoryForm(props) {
     const [loading,setLoading] = useState(false)
-    console.log(props)
-    const { isUpdate,editUser,handleClose,MemoryList } = props;   
+    console.log("====",props)
+    const { isUpdate,editUser,handleClose, MemoryList,memories,setMemories } = props;   
     const [postData, setPostData] = useState({ title: '', message: '', tags: '', selectedFile: '' })
+    
+    useEffect(() => {
+        let initialData = isUpdate ? { title: editUser.title, message: editUser.message, tags: editUser.tags, selectedFile: '' } : { title: '', message: '', tags: '', selectedFile: '' }
+        setPostData({ ...initialData })
+    }, [isUpdate])
     
     const handlesubmit = async (event) => {       
         const token = window.localStorage.getItem("token");
@@ -37,8 +43,7 @@ function CreateMemoryForm(props) {
             }
             setLoading(true) 
             if (isUpdate) {                  
-                let response = await axios.put(`${process.env.REACT_APP_BASE_URL}updatememory`, formData, { headers: headers })  
-                           
+                let response = await axios.put(`${process.env.REACT_APP_BASE_URL}updatememory`, formData, { headers: headers }) 
                 if(response.data.message=="Token Expired"){
                     return alert("Token Expired");
                 }
@@ -47,11 +52,14 @@ function CreateMemoryForm(props) {
                 let response= await axios.post(`${process.env.REACT_APP_BASE_URL}creatememory`, formData, { headers: headers })              
                 if(response.data.message=="Token Expired"){
                     return alert("Token Expired");
+                }else if(response.data.message=="your memory created successfully"){
+                    setMemories([...memories,response.data.data])
                 }
+                
             }  
             setLoading(false)  
             handleClose();                          
-            MemoryList();             
+            props.MemoryList();             
         } catch (error) {
             console.error(error);
         }
@@ -60,10 +68,7 @@ function CreateMemoryForm(props) {
         setPostData({ title: '', message: '', tags: '', selectedFile: '' })
     }
 
-    useEffect(() => {
-        let initialData = isUpdate ? { title: editUser.title, message: editUser.message, tags: '', selectedFile: '' } : { title: '', message: '', tags: '', selectedFile: '' }
-        setPostData({ ...initialData })
-    }, [isUpdate])
+    
 
     return (
         <>
@@ -77,6 +82,11 @@ function CreateMemoryForm(props) {
                 <Button className='buttonSubmit' disabled={loading} sx={{ mb: 1, mt: 1 }} variant='contained' color='primary' size='large' onClick={handlesubmit} fullWidth>{isUpdate ? "Update Memory": <Link to="/home">Create Memory</Link>}</Button>
                 <Button className='buttonSubmit' variant='contained' color='secondary' size='small' onClick={clear} fullWidth>Clear</Button>
             </div>
+            <ToastContainer
+                position="top-center"
+                autoClose={2000}
+                theme="colored"
+            />
         </>
     )
 }

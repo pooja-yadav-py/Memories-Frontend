@@ -26,6 +26,7 @@ const useStyles = makeStyles({
     }
 });
 function Header(props) {
+    console.log("====header");
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [profileMenus, setProfileMenuOpen] = React.useState(false);

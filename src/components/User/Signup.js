@@ -23,7 +23,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import '../../style/global.css';
-import { color, width } from '@mui/system';
 import Logo from "../../images/lotus.webp";
 import axios from 'axios';
 
@@ -61,15 +60,14 @@ function Signup() {
         "content-Type": "application/json"
       }
       setLoading(true)
-      let response = await axios.post(`${process.env.REACT_APP_BASE_URL}resister`, postData, { headers: headers })
+      let response = await axios.post(`${process.env.REACT_APP_BASE_URL}resister`, postData, { headers: headers })    
 
-
-      if (response.data.success === "false") {
+      if (response.data.success === 'false') {        
         setMessage(response.data.message)
-      } else {
+      } else {        
         toast.success("Sign up Successfull!")
         setMessage('')
-        // window.location.href = '/login';        
+        window.location.href = '/login';        
         setField({ username: '', email: '', password: '', gender: '' });
       }
     } catch (error) {

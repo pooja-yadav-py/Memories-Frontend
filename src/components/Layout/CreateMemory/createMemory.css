@@ -19,10 +19,6 @@
     text-decoration: none;
     
 }
-/* .fileInput{
-    margin-bottom: 20px;
-} */
-
-/* .form div{
-    padding-top: 10px;
-} */
+.fileInput{
+    width: 100%;
+}

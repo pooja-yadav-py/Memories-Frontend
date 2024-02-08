@@ -130,10 +130,12 @@ function LeftNav(props) {
                       mr: props.open ? 3 : 'auto',
                       justifyContent: 'center',
                     }}
+                    title={menu.name}
                   >
                     {menu.getIcon()}
-                  </ListItemIcon>
-                  <ListItemText primary={menu.name} sx={{ opacity: props.open ? 1 : 0 }} />
+                  </ListItemIcon>                  
+                     <ListItemText primary={menu.name}  sx={{ opacity: props.open ? 1 : 0 }} />
+                 
                 </ListItemButton>
               </Link>
             </ListItem>
