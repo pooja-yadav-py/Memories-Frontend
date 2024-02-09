@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { UserContext } from '../../../App.js';
-import { Grid, Typography, Button, Paper, Container, CardActionArea, CardActions } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Grid, Typography, Container, CardActionArea, CardActions } from '@mui/material';
 import Card from '@mui/material/Card';
-import axios from 'axios';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { makeStyles } from '@mui/styles';
@@ -18,54 +16,19 @@ const useStyles = makeStyles({
     appBarShift: {
         width: `calc(100% - ${drawerWidth}px)!important`,
         marginLeft: '17%!important',
-        // width:'83%',
     },
     cardAction:{
         width:"300px",
     }
 });
 
-
-const MemoryCard = ({open, setOpen, memories, setMemories}) => {
+const MemoryCard = ({open, memories,userLikedMemories, setUserLikedMemories,fetchMemories,likeCounts}) => {
     const classes = useStyles();    
-    const [likeCounts, setLikeCounts] = useState([]);
-    // const [memories, setMemories] = useState([]);
-    const [userLikedMemories, setUserLikedMemories] = useState([]);
-
-    // Fetch memories, user likes, and like counts on component mount
+    
     useEffect(() => {
         fetchMemories();
     }, []);
 
-    // Function to fetch memories, user likes, and like counts
-    async function fetchMemories() {
-        try {
-            const token = window.localStorage.getItem("token");
-            const headers = {
-                "content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            };
-
-            // Make API requests in parallel
-            const [memoriesResponse, userLikesResponse, likeCountsResponse] = await Promise.all([
-                axios.get(`${process.env.REACT_APP_BASE_URL}memories`, { headers }),
-                axios.get(`${process.env.REACT_APP_BASE_URL}userlikememory`, { headers }),
-                axios.get(`${process.env.REACT_APP_BASE_URL}countlikememory`, { headers })
-            ]);
-
-            // Update state with API response data
-            setMemories(memoriesResponse.data.data);
-            setUserLikedMemories(userLikesResponse.data.data);
-            setLikeCounts(likeCountsResponse.data.data);
-
-            // Handle token expiration
-            if (memoriesResponse.data.data === 'Token Expired') {
-                alert("Token Expired");
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
 
     return (
         <Container className={open ? classes.appBarShift : classes.appbar}>
@@ -102,7 +65,7 @@ const MemoryCard = ({open, setOpen, memories, setMemories}) => {
                                 <LikeButton memory={memory} userLikedMemories={userLikedMemories} setUserLikedMemories={setUserLikedMemories} fetchMemories={fetchMemories}/>
                                 <Typography>
                                     {likeCounts.map((like) => {
-                                        if (like._id === memory._id) {
+                                        if(like._id === memory._id) {
                                             return like.totalLikes;
                                         }
                                     })}

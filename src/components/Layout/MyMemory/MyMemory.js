@@ -9,10 +9,10 @@ import CardMedia from '@mui/material/CardMedia';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import CreateMemoryForm from "../CreateMemory/CreateMemoryForm";
-
-
+import LikeButton from '../AllMemories/LikeButton/LikeButton';
 import Modal from '@mui/material/Modal';
 import './myMemory.css';
+import { textAlign } from '@mui/system';
 
 let drawerWidth = 240
 const useStyles = makeStyles({
@@ -60,7 +60,7 @@ function MyMemory(props) {
     const handleEditClose = () => setOpenEdit(false);
 
     const classes = useStyles();
-    const [response, setResponse] = useState([]);
+    const [loginUserMemory, setLoginUserMemory] = useState([]);
 
     async function MemoryList() {
         try {
@@ -73,7 +73,7 @@ function MyMemory(props) {
             if (result.data.message == "Token Expired") {
                 return alert("Token Expired");
             }
-            setResponse(result.data.data);
+            setLoginUserMemory(result.data.data);
         } catch (error) {
             console.log(error);
         }
@@ -104,7 +104,7 @@ function MyMemory(props) {
         <>
             <Container minwidth="sm" className={props.open ? classes.appBarShift : classes.appbar}>
                 <Grid container>
-                    {Object.keys(response).length == 0 ?
+                    {Object.keys(loginUserMemory).length == 0 ?
                         <Card sx={{ minWidth: 275, margin: 'auto', color: '#673ab7' }}>
                             <CardContent>
                                 <Typography sx={{ mb: 1.5 }} variant="h5" component="div">
@@ -115,7 +115,7 @@ function MyMemory(props) {
                                 </Typography>
                             </CardContent>
                         </Card> :
-                        response.map((item) =>
+                        loginUserMemory.map((userMemory) =>
                         (
                             <Grid xs={12} sm={6} lg={4} sx={{ marginBottom: '20px' }}>
                                 <Card sx={{ maxWidth: 345, marginLeft: '10%' }}>
@@ -123,25 +123,34 @@ function MyMemory(props) {
                                         <CardMedia
                                             component="img"
                                             height="250"
-                                            image={item.selectedFile}
+                                            image={userMemory.selectedFile}
                                             alt="green iguana"
-
                                             sx={{ objectFit: 'contain', backgroundColor: '#837ca74f' }}
                                         />
                                         <CardContent>
                                             <Typography gutterBottom variant="h5" component="div">
-                                                {item.title}
+                                                {userMemory.title}
                                             </Typography>
                                             <Typography variant="body2" color="text.secondary">
-                                                {item.message}
+                                                {userMemory.message}
                                             </Typography>
                                         </CardContent>
                                     </CardActionArea>
                                     <CardActions sx={{ justifyContent: 'space-between' }}>
-                                        <Typography>Created By: <b style={{ color: 'blue' }}>{item.name}</b></Typography>
+                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                        <Typography>Created By: <b style={{ color: 'blue' }}>{userMemory.name}</b></Typography>
+                                            <LikeButton memory={userMemory} userLikedMemories={props.userLikedMemories} setUserLikedMemories={props.setUserLikedMemories} fetchMemories={props.fetchMemories} likeCounts={props.likeCounts} />
+                                            <Typography>
+                                                {props.likeCounts.map((like) => {
+                                                    if (like._id === userMemory._id) {
+                                                        return like.totalLikes;
+                                                    }
+                                                })}
+                                            </Typography>
+                                    </div>
                                         <div>
-                                            <DeleteIcon className="delete-icon" onClick={(e) => handleOpen(e, item)} />
-                                            <BorderColorIcon className="edit-Icon" onClick={(e) => handleEditOpen(e, item)} />
+                                            <DeleteIcon className="delete-icon" onClick={(e) => handleOpen(e, userMemory)} />
+                                            <BorderColorIcon className="edit-Icon" onClick={(e) => handleEditOpen(e, userMemory)} />
                                         </div>
                                     </CardActions>
                                 </Card>

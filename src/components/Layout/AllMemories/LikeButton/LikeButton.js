@@ -6,6 +6,7 @@ import axios from 'axios';
 
 
 const LikeButton = ({memory, userLikedMemories, setUserLikedMemories, fetchMemories}) => {
+    console.log("memorryyyyyy",memory)
     async function getLikedMemoriesForUser() {
         try {
             const token = window.localStorage.getItem("token");
@@ -25,9 +26,12 @@ const LikeButton = ({memory, userLikedMemories, setUserLikedMemories, fetchMemor
 
 
     const handleLike = async (p) => {
+        
         try {
+            console.log("pp",p)
             const token = window.localStorage.getItem("token");
             const memory_id = memory._id;
+            console.log("memory_id",memory_id)
             const postData = { memory_id };
             const headers = {
                 "content-Type": "application/json",
