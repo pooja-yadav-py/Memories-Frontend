@@ -8,7 +8,6 @@ import axios from 'axios';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ResetPassword from './components/User/ResetPassword';
 import CreateMemory from "./components/Layout/CreateMemory/CreateMemory";
-import CreateMemoryForm from "./components/Layout/CreateMemory/CreateMemoryForm";
 import AllMemories from './components/Layout/AllMemories/AllMemories';
 import Protected from "./components/Protected";
 import CheckLogin from "./components/CheckLogin";
@@ -39,6 +38,7 @@ function App() {
             axios.get(`${process.env.REACT_APP_BASE_URL}userlikememory`, { headers }),
             axios.get(`${process.env.REACT_APP_BASE_URL}countlikememory`, { headers })
         ]);
+        console.log("likeCountsResponse",likeCountsResponse);
 
         // Update state with API response data
         setMemories(memoriesResponse.data.data);
@@ -53,7 +53,7 @@ function App() {
         console.log(error);
     }
 }
-
+console.log("likeCounts",likeCounts)
   return (
     <>        
     {login && <Layout open={open} setOpen={setOpen} admin={admin}/>} 

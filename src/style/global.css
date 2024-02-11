@@ -17,6 +17,22 @@ body{
 .signup{
     margin-top: 0px;
 }
+/* .count{
+    margin-top: 10px;
+} */
+.count:hover{
+    cursor: pointer;
+}
+.userLikelist{ 
+    list-style: none;
+}
+.heart{
+    color: red;
+    font-size: 1.5rem;
+    margin-top: 3px;
+    margin-left: 4px;
+}
+
 /* .Mui-disabled{
     color: black;
     background-color: cyan;

@@ -135,7 +135,6 @@ function LeftNav(props) {
                     {menu.getIcon()}
                   </ListItemIcon>                  
                      <ListItemText primary={menu.name}  sx={{ opacity: props.open ? 1 : 0 }} />
-                 
                 </ListItemButton>
               </Link>
             </ListItem>

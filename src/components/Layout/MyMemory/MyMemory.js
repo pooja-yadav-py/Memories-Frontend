@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Card from '@mui/material/Card';
-import { Grid, Typography, Button, Box, Paper, Container, CardActionArea, CardActions } from '@mui/material';
+import { Grid, Typography, Button, Box, Container, CardActionArea, CardActions } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -11,8 +10,12 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import CreateMemoryForm from "../CreateMemory/CreateMemoryForm";
 import LikeButton from '../AllMemories/LikeButton/LikeButton';
 import Modal from '@mui/material/Modal';
+import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import './myMemory.css';
-import { textAlign } from '@mui/system';
 
 let drawerWidth = 240
 const useStyles = makeStyles({
@@ -49,6 +52,7 @@ const styleEdit = {
 };
 
 function MyMemory(props) {
+    console.log("11111",props)
     const [deleteUser, setDeleteUser] = useState('');
     const [editUser, setEditUser] = useState('');
     const [open, setOpen] = useState(false);
@@ -62,6 +66,10 @@ function MyMemory(props) {
     const classes = useStyles();
     const [loginUserMemory, setLoginUserMemory] = useState([]);
 
+    useEffect(() => {
+        props.fetchMemories();
+    }, []);
+    
     async function MemoryList() {
         try {
             const token = window.localStorage.getItem("token");
@@ -70,7 +78,7 @@ function MyMemory(props) {
                 "Authorization": `Bearer ${token}`
             }
             let result = await axios.get(`${process.env.REACT_APP_BASE_URL}usermemories`, { headers: headers })
-            if (result.data.message == "Token Expired") {
+            if (result.data.message === "Token Expired") {
                 return alert("Token Expired");
             }
             setLoginUserMemory(result.data.data);
@@ -104,7 +112,7 @@ function MyMemory(props) {
         <>
             <Container minwidth="sm" className={props.open ? classes.appBarShift : classes.appbar}>
                 <Grid container>
-                    {Object.keys(loginUserMemory).length == 0 ?
+                    {Object.keys(loginUserMemory).length === 0 ?
                         <Card sx={{ minWidth: 275, margin: 'auto', color: '#673ab7' }}>
                             <CardContent>
                                 <Typography sx={{ mb: 1.5 }} variant="h5" component="div">
@@ -185,7 +193,16 @@ function MyMemory(props) {
                     </Modal>
                 </Grid>
             </Container>
-
+            {/* <Dialog onClose={handleClose} open={openModal}>
+                <DialogTitle sx={{ fontSize: '20px', fontWeight: 'bold', backgroundColor: '#f0f0f0', padding: '16px' }}>Memory Liked Users </DialogTitle>
+                <List sx={{ pt: 0 }}>
+                    {likeUsersList.map((item) => {
+                       return <ListItem sx={{ fontFamily: 'Arial', fontSize: '18px', color: '#333',backgroundColor: '#dfd5dd', marginBottom: '8px' }} key={item.userId._id}>{item.userId.uname}
+                                <FavoriteIcon className="heart"/>
+                            </ListItem>;
+                    })}
+                </List>
+            </Dialog> */}
         </>
     )
 }
