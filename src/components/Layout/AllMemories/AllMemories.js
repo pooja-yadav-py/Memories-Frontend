@@ -44,14 +44,12 @@ const MemoryCard = ({open, memories,userLikedMemories, setUserLikedMemories,fetc
         try {
             const token = window.localStorage.getItem("token");
             const memory_id = id;
-            console.log("memory_id",memory_id)
             const postData = { memory_id };
             const headers = {
                 "content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
             }
             let response = await axios.post(`${process.env.REACT_APP_BASE_URL}likeUsers`, postData, { headers: headers });
-            console.log("=====--",response.data.data)
             setLikeUsersList(response.data.data)
             setOpenModal(true);
         } catch (error) {
@@ -61,7 +59,6 @@ const MemoryCard = ({open, memories,userLikedMemories, setUserLikedMemories,fetc
     const handleClose = ()=>{
         setOpenModal(false);
     }
-        console.log("===",likeUsersList);
     return (
         <>
             <Container className={open ? classes.appBarShift : classes.appbar}>
