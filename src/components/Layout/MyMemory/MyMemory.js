@@ -52,7 +52,6 @@ const styleEdit = {
 };
 
 function MyMemory(props) {
-    console.log("11111",props)
     const [deleteUser, setDeleteUser] = useState('');
     const [editUser, setEditUser] = useState('');
     const [open, setOpen] = useState(false);
@@ -67,9 +66,12 @@ function MyMemory(props) {
     const [loginUserMemory, setLoginUserMemory] = useState([]);
 
     useEffect(() => {
-        props.fetchMemories();
+        MemoryList();
+        props.likeMemoryCounts();
+        props.userLikeMemory();
     }, []);
     
+    // Function to fetch memories of the logged-in user
     async function MemoryList() {
         try {
             const token = window.localStorage.getItem("token");
@@ -77,19 +79,23 @@ function MyMemory(props) {
                 "content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
             }
+            // Make API request to get user memories
             let result = await axios.get(`${process.env.REACT_APP_BASE_URL}usermemories`, { headers: headers })
+            
+            // Handle token expiration and Handle response statuses
             if (result.data.message === "Token Expired") {
                 return alert("Token Expired");
+            }else if(result.status===200){
+                setLoginUserMemory(result.data.data);
+            }else if(result.status===404){
+                alert(result.data.message);
             }
-            setLoginUserMemory(result.data.data);
         } catch (error) {
             console.log(error);
         }
     }
 
-    useEffect(() => {
-        MemoryList();
-    }, [])
+    // Function to remove a memory
     const removeMemory = async (e, deleteUser) => {
         try {
             const token = window.localStorage.getItem("token");
@@ -98,13 +104,21 @@ function MyMemory(props) {
                 "content-Type": "application/json",
                 "Authorization": `Bearer ${token}`,
                 'isAdmin':`${admin}`                
-            }           
-            await axios.delete(`${process.env.REACT_APP_BASE_URL}deletememory/${deleteUser._id}`,{ headers: headers })
+            }         
+            // Make DELETE request to delete the memory  
+            let response = await axios.delete(`${process.env.REACT_APP_BASE_URL}deletememory/${deleteUser._id}`,{ headers: headers })
+            if(response.status===200){
+                // Close modal,show alert and refresh memory list
+                handleClose();
+                alert(response.data.message)
+                MemoryList();
+            }else if(response.status===403){
+                alert(response.data.message)
+            }
         } catch (error) {
             console.log(error);
         }
-        handleClose();
-        MemoryList();
+       
     }
 
 
@@ -147,7 +161,7 @@ function MyMemory(props) {
                                     <CardActions sx={{ justifyContent: 'space-between' }}>
                                     <div style={{ display: 'flex', alignItems: 'center' }}>
                                         <Typography>Created By: <b style={{ color: 'blue' }}>{userMemory.name}</b></Typography>
-                                            <LikeButton memory={userMemory} userLikedMemories={props.userLikedMemories} setUserLikedMemories={props.setUserLikedMemories} fetchMemories={props.fetchMemories} likeCounts={props.likeCounts} />
+                                            <LikeButton memory={userMemory} userLikedMemories={props.userLikedMemories} setUserLikedMemories={props.setUserLikedMemories} likeMemoryCounts={props.likeMemoryCounts} />
                                             <Typography>
                                                 {props.likeCounts.map((like) => {
                                                     if (like._id === userMemory._id) {

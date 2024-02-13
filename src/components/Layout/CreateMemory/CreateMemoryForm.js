@@ -20,10 +20,12 @@ function CreateMemoryForm(props) {
         setPostData({ ...initialData })
     }, [isUpdate])
     
-    const handlesubmit = async (event) => {       
+    const handlesubmit = async (event) => {  
+        // Get token and user name from local storage
         const token = window.localStorage.getItem("token");
         const name = window.localStorage.getItem("uname");
         event.preventDefault();
+        // Create form data
         const formData = new FormData();
         formData.append('name', name);
         formData.append('title', postData.title);
@@ -36,26 +38,38 @@ function CreateMemoryForm(props) {
             'Content-Type': 'multipart/form-data',
             "Authorization": `Bearer ${token}`
         }
-        try {            
+        try {        
+            // Validate form fields
             if (postData.title == '' || postData.message == '' || postData.tags == '' || !isUpdate && postData.selectedFile == '') {
                  alert("Fields cannot be empty");
                  return;
             }
             setLoading(true) 
-            if (isUpdate) {                  
+            if (isUpdate) {   
+                // Update memory if isUpdate flag is true
                 let response = await axios.put(`${process.env.REACT_APP_BASE_URL}updatememory`, formData, { headers: headers }) 
-                if(response.data.message=="Token Expired"){
-                    return alert("Token Expired");
+                
+                // Handle response statuses
+                if(response.status === 401){
+                     alert("Token Expired");
+                }else if(response.status === 200){
+                     alert(response.data.message)
+                }else if(response.status === 403){
+                     alert(response.data.message)
                 }
             } else {
                
-                let response= await axios.post(`${process.env.REACT_APP_BASE_URL}creatememory`, formData, { headers: headers })              
-                if(response.data.message=="Token Expired"){
-                    return alert("Token Expired");
-                }else if(response.data.message=="your memory created successfully"){
-                    setMemories([...memories,response.data.data])
-                }
+                // Create new memory if isUpdate flag is false
+                let response = await axios.post(`${process.env.REACT_APP_BASE_URL}creatememory`, formData, { headers: headers })              
                 
+                // Handle response statuses
+                if(response.status === 401){
+                    return alert("Token Expired");
+                }else if(response.status === 201){
+                    setMemories([...memories,response.data.data])
+                    props.fetchMemories();
+                    return alert(response.data.message)
+                }    
             }  
             setLoading(false)  
             handleClose();                          

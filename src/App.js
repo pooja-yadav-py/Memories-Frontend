@@ -1,4 +1,4 @@
-import {useState,createContext} from "react";
+import {useState,useEffect,createContext} from "react";
 import './App.css';
 import Login from "./components/User/Login";
 import Signup from './components/User/Signup';
@@ -24,6 +24,7 @@ function App() {
   const [userLikedMemories, setUserLikedMemories] = useState([]);
   let login = localStorage.getItem("loggedIn");
   
+  // Function to fetch all memories
   async function fetchMemories() {
     try {
         const token = window.localStorage.getItem("token");
@@ -31,27 +32,66 @@ function App() {
             "content-Type": "application/json",
             "Authorization": `Bearer ${token}`
         };
-
         // Make API requests in parallel
-        const [memoriesResponse, userLikesResponse, likeCountsResponse] = await Promise.all([
-            axios.get(`${process.env.REACT_APP_BASE_URL}memories`, { headers }),
-            axios.get(`${process.env.REACT_APP_BASE_URL}userlikememory`, { headers }),
-            axios.get(`${process.env.REACT_APP_BASE_URL}countlikememory`, { headers })
-        ]);
-        console.log("likeCountsResponse",likeCountsResponse);
+        const memoriesResponse = await axios.get(`${process.env.REACT_APP_BASE_URL}memories`, { headers });
+        console.log("memoriesResponse",memoriesResponse);
 
         // Update state with API response data
         setMemories(memoriesResponse.data.data);
-        setUserLikedMemories(userLikesResponse.data.data);
-        setLikeCounts(likeCountsResponse.data.data);
 
         // Handle token expiration
-        if (memoriesResponse.data.data === 'Token Expired') {
+        if (memoriesResponse.data.data === 'Token Expired'){
             alert("Token Expired");
+            localStorage.clear();
+            window.location.href = '/login';
         }
     } catch (error) {
+      // Handle errors
+      if(error.response.status===401){
+        localStorage.clear();
+        window.location.href = '/login';
+      }
         console.log(error);
     }
+}
+
+
+
+async function likeMemoryCounts(){
+  try{
+    const token = window.localStorage.getItem("token");
+        const headers = {
+            "content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        };
+        const likeCountsResponse = await axios.get(`${process.env.REACT_APP_BASE_URL}countlikememory`, { headers });
+        console.log(likeCountsResponse)
+        setLikeCounts(likeCountsResponse.data.data);
+      }catch(error){
+        if(error.response.status===401){
+          localStorage.clear();
+          window.location.href = '/login';
+        }
+        console.log(error);
+  }
+}
+
+async function userLikeMemory() {
+  try{
+    const token = window.localStorage.getItem("token");
+        const headers = {
+            "content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        };
+        const userLikesResponse = await axios.get(`${process.env.REACT_APP_BASE_URL}userlikememory`, { headers });
+        setUserLikedMemories(userLikesResponse.data.data);
+  }catch(error){
+    if(error.response.status===401){
+      localStorage.clear();
+      window.location.href = '/login';
+    }
+    console.log(error);
+  }
 }
 console.log("likeCounts",likeCounts)
   return (
@@ -65,10 +105,10 @@ console.log("likeCounts",likeCounts)
       <Route path='/resetpassword/:id' element={<CheckLogin Component={ResetPassword}/>} />
       <Route path='/userList' element={<Protected Component={UserList} open={open}/>} />    
       
-      <Route exact path='/home' element={<Protected Component={AllMemories} open={open} memories={memories} userLikedMemories={userLikedMemories} setUserLikedMemories={setUserLikedMemories} fetchMemories={fetchMemories} likeCounts={likeCounts}/>}/>
-      <Route exact path='/usermemories' element={<Protected Component={MyMemory} open={open} setOpen={setOpen} userLikedMemories={userLikedMemories} setUserLikedMemories={setUserLikedMemories} fetchMemories={fetchMemories} likeCounts={likeCounts}/>}/>
+      <Route exact path='/home' element={<Protected Component={AllMemories} open={open} memories={memories} userLikedMemories={userLikedMemories} setUserLikedMemories={setUserLikedMemories} fetchMemories={fetchMemories} likeCounts={likeCounts} userLikeMemory={userLikeMemory} likeMemoryCounts={likeMemoryCounts}/>}/>
+      <Route exact path='/usermemories' element={<Protected Component={MyMemory} open={open} setOpen={setOpen} userLikedMemories={userLikedMemories} setUserLikedMemories={setUserLikedMemories} likeCounts={likeCounts} userLikeMemory={userLikeMemory} likeMemoryCounts={likeMemoryCounts}/>}/>
 
-      <Route exact path='/create' element={<Protected Component={CreateMemory} open={open} setOpen={setOpen} memories={memories} setMemories={setMemories}/>}/>
+      <Route exact path='/create' element={<Protected Component={CreateMemory} open={open} setOpen={setOpen} memories={memories} setMemories={setMemories} fetchMemories={fetchMemories}/>}/>
       {/* <Route exact path='/update' element={<Protected Component={CreateMemory} open={open} setOpen={setOpen} isUpdate={true} />}/> */}
 
                         

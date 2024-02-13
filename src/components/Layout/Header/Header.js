@@ -34,11 +34,7 @@ function Header(props) {
     const getProfilePhoto = () => {
         return <Avatar src="https://www.pngitem.com/pimgs/m/22-220721_circled-user-male-type-user-colorful-icon-png.png" />
     }
-    // const openProfileMenu = (event) =>{
-    //     console.log("event",event.currentTarget)
-    //     setProfileMenuOpen(true);
-    // }
-
+    
     const openProfileMenuHandleClick = (e) => {
         setAnchorEl(e.currentTarget);
         setProfileMenuOpen(true)
@@ -47,6 +43,28 @@ function Header(props) {
     const handleMemoryCreate = () => {
         window.location.href = "/memory";
     }
+    let admin = localStorage.getItem("isAdmin");
+
+    let menus = [
+        {name: "Memories", url:"/home"},
+        {name: "My Memories", url:"/usermemories"},
+      ]
+      
+      let adminMenus = [
+        {name: "Users", url:"/userList"},
+        {name: "Memories", url:"/home"},
+        {name: "My Memories", url:"/usermemories"}, 
+      ]
+      let result = (admin === "true" ? adminMenus : menus);
+      const currentUrl = window.location.href;
+        
+        const parts = currentUrl.split("/");
+        const lastPart = "/"+parts[parts.length - 1];
+       
+        let heading = result.find((item)=>{
+            return item.url===lastPart;
+        })
+        
     return (
         <>
             <AppBar
@@ -76,7 +94,8 @@ function Header(props) {
                             </div>
                         </div>
                         <div style={{ margin: 'auto' }}>
-                            <h2>Our Memories</h2>
+                            <h2>{heading.name}</h2>
+                            
                         </div>
                         <div>
 
@@ -89,7 +108,6 @@ function Header(props) {
 
 
                         </div>
-                        {/* <Button variant="text" >Create</Button> */}
                         <div>
                             <div onClick={openProfileMenuHandleClick} className="expandButton">
                                 <span>{getProfilePhoto()}</span>

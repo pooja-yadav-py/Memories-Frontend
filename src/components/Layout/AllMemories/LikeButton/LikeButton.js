@@ -5,29 +5,10 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import axios from 'axios';
 
 
-const LikeButton = ({memory, userLikedMemories, setUserLikedMemories, fetchMemories}) => {
-    async function getLikedMemoriesForUser() {
-        try {
-            const token = window.localStorage.getItem("token");
-            const headers = {
-                "content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            }
-            let result = await axios.get(`${process.env.REACT_APP_BASE_URL}userlikememory`, { headers: headers })
-            console.log(result.data.data)
-            
-            setUserLikedMemories(result.data.data);   
-        } catch (error) {
-            console.log(error);
-        }        
-    }
-
-
-
+const LikeButton = ({memory, userLikedMemories, setUserLikedMemories,likeMemoryCounts}) => {
+    
     const handleLike = async (p) => {
-        
         try {
-            console.log("pp",p)
             const token = window.localStorage.getItem("token");
             const memory_id = memory._id;
             console.log("memory_id",memory_id)
@@ -37,13 +18,22 @@ const LikeButton = ({memory, userLikedMemories, setUserLikedMemories, fetchMemor
                 "Authorization": `Bearer ${token}`
             }
             let response = await axios.post(`${process.env.REACT_APP_BASE_URL}likememory`, postData, { headers: headers });
-            console.log("=====--",response.data.data)
-            getLikedMemoriesForUser(); 
-            fetchMemories()
+            if(response.data.message==='Memory Like'){
+                setUserLikedMemories([...userLikedMemories,response.data.data])
+            }else if(response.data.message==='Memory DisLike'){
+                let filteredData = userLikedMemories.filter((item)=>{
+                    return item.memoryId!==memory._id
+                })
+                setUserLikedMemories([...filteredData]);
+            }
+            
+            likeMemoryCounts();
+            
         } catch (error) {
-            console.log(error);
+            console.log(error); 
         }
     };
+    
     let c = userLikedMemories.map((item)=>{
         return item.memoryId;
     })

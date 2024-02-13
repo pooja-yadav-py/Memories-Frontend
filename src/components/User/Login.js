@@ -36,7 +36,8 @@ function Login() {
     setMessage('');
   }
 
-  let handleLogIn = async (e) => {
+  // Function to handle user login
+  const handleLogIn = async (e) => {
     e.preventDefault();
     const { email, password } = field;
     try {
@@ -52,8 +53,9 @@ function Login() {
         'Content-Type': 'application/json'
       }
       setLoading(true);
+      
+      // Make API request to login
       let response = await axios.post(`${process.env.REACT_APP_BASE_URL}loginuser`, postData, { headers: headers })
-      console.log("response",response)
       let { success,message,data,isAdmin,uname } = response.data;     
       if (success === true) {
         setMessage('');

@@ -31,13 +31,15 @@ const useStyles = makeStyles({
     }
 });
 
-const MemoryCard = ({open, memories,userLikedMemories, setUserLikedMemories,fetchMemories,likeCounts}) => {
+const MemoryCard = ({open, memories,userLikedMemories, setUserLikedMemories,fetchMemories,likeCounts,userLikeMemory,likeMemoryCounts}) => {
     const classes = useStyles();   
     const [likeUsersList,setLikeUsersList] = useState([]);
     const [openModal , setOpenModal] = useState(false);
     
     useEffect(() => {
         fetchMemories();
+        likeMemoryCounts();
+        userLikeMemory();
     }, []);
 
     const showLikeUser = async (id) =>{
@@ -92,7 +94,7 @@ const MemoryCard = ({open, memories,userLikedMemories, setUserLikedMemories,fetc
                                 </CardActionArea>
                                 <CardActions>
                                     <Typography>Created By: <b style={{ color: 'blue' }}>{memory.name}</b></Typography>
-                                    <LikeButton memory={memory} userLikedMemories={userLikedMemories} setUserLikedMemories={setUserLikedMemories} fetchMemories={fetchMemories}/>
+                                    <LikeButton memory={memory} userLikedMemories={userLikedMemories} setUserLikedMemories={setUserLikedMemories} likeMemoryCounts={likeMemoryCounts}/>
                                     <Typography className="count" onClick={()=>showLikeUser(memory._id)}>
                                         {likeCounts.map((like) => {
                                             if(like._id === memory._id) {
