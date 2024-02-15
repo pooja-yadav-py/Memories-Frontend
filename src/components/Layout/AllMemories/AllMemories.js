@@ -35,6 +35,8 @@ const MemoryCard = ({open, memories,userLikedMemories, setUserLikedMemories,fetc
     const classes = useStyles();   
     const [likeUsersList,setLikeUsersList] = useState([]);
     const [openModal , setOpenModal] = useState(false);
+    const [openModalImage,setOpenModalImage] = useState(false);
+    const [img,setImg] = useState("");
     
     useEffect(() => {
         fetchMemories();
@@ -58,8 +60,17 @@ const MemoryCard = ({open, memories,userLikedMemories, setUserLikedMemories,fetc
             console.log(error);
         }
     }
+    
     const handleClose = ()=>{
         setOpenModal(false);
+    }
+    const showMemoryImage = (pic)=>{
+        console.log(pic)
+        setOpenModalImage(true);
+        setImg(pic)
+    }
+    const handleCloseImage=()=>{
+        setOpenModalImage(false);
     }
     return (
         <>
@@ -82,6 +93,7 @@ const MemoryCard = ({open, memories,userLikedMemories, setUserLikedMemories,fetc
                                                 transform: 'scale(1.2)',
                                             } 
                                         }}
+                                        onClick={()=>showMemoryImage(memory.selectedFile)}
                                     />
                                     <CardContent>
                                         <Typography gutterBottom variant="h5" component="div">
@@ -118,6 +130,9 @@ const MemoryCard = ({open, memories,userLikedMemories, setUserLikedMemories,fetc
                     })}
                 </List>
             </Dialog>
+            <Dialog onClose={handleCloseImage} open={openModalImage} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
+                <img style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }} src={img} />
+            </Dialog>            
         </>
     );
 };

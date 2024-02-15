@@ -64,6 +64,8 @@ function MyMemory(props) {
 
     const classes = useStyles();
     const [loginUserMemory, setLoginUserMemory] = useState([]);
+    const [openModalImage,setOpenModalImage] = useState(false);
+    const [img,setImg] = useState("");
 
     useEffect(() => {
         MemoryList();
@@ -120,6 +122,16 @@ function MyMemory(props) {
         }
        
     }
+    const showMemoryImage = (pic)=>{
+        console.log(pic)
+        setOpenModalImage(true);
+        setImg(pic)
+    }
+    const handleCloseImage=()=>{
+        setOpenModalImage(false);
+    }
+    
+    
 
 
     return (
@@ -148,6 +160,7 @@ function MyMemory(props) {
                                             image={userMemory.selectedFile}
                                             alt="green iguana"
                                             sx={{ objectFit: 'contain', backgroundColor: '#837ca74f' }}
+                                            onClick={()=>showMemoryImage(userMemory.selectedFile)}
                                         />
                                         <CardContent>
                                             <Typography gutterBottom variant="h5" component="div">
@@ -217,6 +230,9 @@ function MyMemory(props) {
                     })}
                 </List>
             </Dialog> */}
+            <Dialog onClose={handleCloseImage} open={openModalImage} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
+                <img style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }} src={img} />
+            </Dialog>
         </>
     )
 }

@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import { Link, Route, Routes } from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-// import MenuIcon from "@material-ui/icons/Menu";
 import MenuIcon from '@mui/icons-material/Menu';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Avatar } from "@mui/material";
@@ -94,7 +93,7 @@ function Header(props) {
                             </div>
                         </div>
                         <div style={{ margin: 'auto' }}>
-                            <h2>{heading.name}</h2>
+                            <h2>{heading?heading.name:"Memories"}</h2>
                             
                         </div>
                         <div>
