@@ -1,13 +1,10 @@
 import React, { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom'
-import Header from './Layout/Header/Header';
-import LeftNav from './Layout/LeftNav/LeftNav';
-
+import { useNavigate } from 'react-router-dom'
 
 
 function Protected(props) {
     console.log("propssss",props)
-    let { Component,open,setOpen } = props;
+    let { Component } = props;
     const navigate = useNavigate()
     let isLoggedIn = localStorage.getItem("loggedIn");
     useEffect(() => {

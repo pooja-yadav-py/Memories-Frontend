@@ -41,7 +41,7 @@ function Login() {
     e.preventDefault();
     const { email, password } = field;
     try {
-      if(field.email=="" || field.password==""){
+      if(field.email==="" || field.password===""){
         setMessage("Fields cannot be empty");
         return ;
       }

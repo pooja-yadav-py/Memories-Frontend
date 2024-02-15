@@ -10,11 +10,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import CreateMemoryForm from "../CreateMemory/CreateMemoryForm";
 import LikeButton from '../AllMemories/LikeButton/LikeButton';
 import Modal from '@mui/material/Modal';
-import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import './myMemory.css';
 
 let drawerWidth = 240

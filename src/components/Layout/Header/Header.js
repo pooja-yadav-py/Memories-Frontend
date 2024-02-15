@@ -1,15 +1,11 @@
 import React from "react";
-import clsx from 'clsx';
-import { Link, Route, Routes } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import MenuIcon from '@mui/icons-material/Menu';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Avatar } from "@mui/material";
 import Icon from '@mui/material/Icon';
-
-import Button from '@mui/material/Button';
-
 import './HeaderStyle.css';
 import ProfileMenu from "./ProfileMenus";
 import { makeStyles } from '@mui/styles';
@@ -39,9 +35,6 @@ function Header(props) {
         setProfileMenuOpen(true)
     }
 
-    const handleMemoryCreate = () => {
-        window.location.href = "/memory";
-    }
     let admin = localStorage.getItem("isAdmin");
 
     let menus = [

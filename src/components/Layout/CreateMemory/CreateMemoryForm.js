@@ -6,7 +6,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './createMemory.css';
 
-import { TextField, Typography, Button, Paper } from '@mui/material';
+import { TextField, Typography, Button } from '@mui/material';
 
 
 function CreateMemoryForm(props) {
@@ -40,7 +40,7 @@ function CreateMemoryForm(props) {
         }
         try {        
             // Validate form fields
-            if (postData.title == '' || postData.message == '' || postData.tags == '' || !isUpdate && postData.selectedFile == '') {
+            if (postData.title === '' || postData.message === '' || postData.tags === '' || (!isUpdate && postData.selectedFile === '')) {
                  alert("Fields cannot be empty");
                  return;
             }

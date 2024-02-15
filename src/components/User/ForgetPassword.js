@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Container from '@mui/material/Container';
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import { ValidatorForm } from 'react-material-ui-form-validator';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -29,7 +29,7 @@ function ForgetPassword() {
 
     const submitForm = async () => {        
         try{
-            if(resetPasswordEmail==''){
+            if(resetPasswordEmail===''){
                 setMessage('Field cannot be empty!');
                 return;
             }

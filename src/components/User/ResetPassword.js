@@ -32,7 +32,7 @@ function ResetPassword() {
 
     const ChangePassword = async (e) => {
         try {
-            if (password == '') {
+            if (password === '') {
                 setMessage('Field cannot be empty!')
                 return;
             }

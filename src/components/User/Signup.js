@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Container from '@mui/material/Container';
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import { ValidatorForm } from 'react-material-ui-form-validator';
 import Grid from '@mui/material/Grid';
 import { Link } from 'react-router-dom';
 // import Link from '@mui/material/Link';
@@ -51,7 +51,7 @@ function Signup() {
     const { username, email, password, gender } = field;
 
     try {
-      if (field.username == '' || field.email == '' || field.password == '' || field.gender == '') {
+      if (field.username === '' || field.email === '' || field.password === '' || field.gender === '') {
         setMessage("Fields cannot be empty")
         return;
       }

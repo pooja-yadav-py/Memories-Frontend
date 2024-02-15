@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import MaterialTable, { Column } from "@material-table/core";
+import MaterialTable from "@material-table/core";
 import Container from '@mui/material/Container';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
@@ -17,18 +17,6 @@ const useStyles = makeStyles({
         marginLeft: '18%!important',
     }
 });
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
 
 function Main(props) {
   const classes = useStyles();
@@ -143,7 +131,7 @@ function Main(props) {
                   }
                   let updatedData = userList.map((item) => {
 
-                    if (item._id == newData._id) {
+                    if (item._id === newData._id) {
                       item = newData;
                     }
                     return item;
