@@ -1,0 +1,42 @@
+
+.paper-container {
+    padding:'2px 4px';
+    padding: 2px 4px;
+    display: flex;
+    align-items: center;
+    width: 400px;
+    margin: auto;
+  }
+  .search{
+    margin-right: 8px;
+    width: 60rem;
+  }
+  .search-bar-container{
+      margin-bottom: 10px;
+      margin-top:-20px;
+      display: flex;
+  }
+  .search-item{
+    width: 100%;
+  }
+  .selected{
+    background-color: rgb(201, 195, 195) !important;
+    font-weight: bold;
+  }
+  .custom-textfield div{
+    padding-right: 2px;
+    height:2.5rem; 
+   }
+   
+   /* .custom-button {
+    background-color: #acbdbd !important;
+    font-weight: bold;
+    margin-left: 10px !important;
+    margin-top: -5px !important;
+    color: black;
+  }
+  
+  .custom-button:hover {
+    background-color: #cb3255 !important;
+    color: white;
+  } */

@@ -86,6 +86,10 @@ function LeftNav(props) {
   let result = (admin === "true" ? adminMenus : menus);
   console.log("111result",result)
 
+  const handleClick = (menu) =>{
+    console.log(menu)
+    props.fetchMemories()
+  }
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -103,6 +107,7 @@ function LeftNav(props) {
                     justifyContent: props.open ? 'initial' : 'center',
                     px: 2.5,
                   }}
+                  onClick={() => handleClick(menu)}
                 >
                   <ListItemIcon
                     sx={{

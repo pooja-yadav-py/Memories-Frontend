@@ -4,6 +4,17 @@
 }
 .delete-icon{
     margin-Right: 10px;
-     color: #cf1919;
-      cursor: pointer;
+    color: #cf1919;
+    cursor: pointer;
+}
+.loading-element{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+h3{
+    font-size: 72px;
+    background: -webkit-linear-gradient(#f44336, #9c27b0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }

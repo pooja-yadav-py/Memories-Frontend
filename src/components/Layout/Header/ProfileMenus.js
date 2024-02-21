@@ -3,7 +3,6 @@ import { Menu, MenuItem } from '@mui/material';
 
 function ProfileMenus(props) {
     const {setAnchorEl,setProfileMenuOpen,anchorEl,profileMenus} = props
-    
     const profileMenuHandleClose = () => {
         setAnchorEl(null);
         setProfileMenuOpen(false)

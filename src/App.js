@@ -19,26 +19,47 @@ function App() {
   console.log("=========App");
   const [open, setOpen] = useState(false);
   const [admin,setAdmin] = useState(true);
+  const [likeUserListModal , setLikeUserListModal] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   const [memories, setMemories] = useState([]);
   const [likeCounts, setLikeCounts] = useState([]);
   const [userLikedMemories, setUserLikedMemories] = useState([]);
+  const [likeUsersList,setLikeUsersList] = useState([]);
+
+  
+  const [searchValue, setSearchValue] = useState({
+      name: '',
+      tag: '',
+      title: '',
+      description: ''
+  });
+
   let login = localStorage.getItem("loggedIn");
   
   // Function to fetch all memories
   async function fetchMemories() {
     try {
+        setLoading(true);
         const token = window.localStorage.getItem("token");
         const headers = {
             "content-Type": "application/json",
             "Authorization": `Bearer ${token}`
         };
         // Make API requests in parallel
-        const memoriesResponse = await axios.get(`${process.env.REACT_APP_BASE_URL}memories`, { headers });
+        const memoriesResponse = await axios.get(`${process.env.REACT_APP_BASE_URL}memories`,{
+          params: {
+            ...searchValue,
+          } ,
+          headers: headers
+        });
         console.log("memoriesResponse",memoriesResponse);
-
-        // Update state with API response data
-        setMemories(memoriesResponse.data.data);
-
+        if(memoriesResponse.data.success===true){
+          // Update state with API response data
+          setMemories(memoriesResponse.data.data);
+        }else if(memoriesResponse.data.success===false){
+          alert(memoriesResponse.data.message)
+        }
         // Handle token expiration
         if (memoriesResponse.data.data === 'Token Expired'){
             alert("Token Expired");
@@ -52,9 +73,27 @@ function App() {
         window.location.href = '/login';
       }
         console.log(error);
+    }finally {
+      setLoading(false); // Set loading state to false when data fetching is complete
     }
 }
 
+const showLikeUser = async (id) =>{
+  try {
+      const token = window.localStorage.getItem("token");
+      const memory_id = id;
+      const postData = { memory_id };
+      const headers = {
+          "content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+      }
+      let response = await axios.post(`${process.env.REACT_APP_BASE_URL}likeUsers`, postData, { headers: headers });
+      setLikeUsersList(response.data.data)
+      setLikeUserListModal(true);
+  } catch (error) {
+      console.log(error);
+  }
+}
 
 
 async function likeMemoryCounts(){
@@ -93,10 +132,9 @@ async function userLikeMemory() {
     console.log(error);
   }
 }
-console.log("likeCounts",likeCounts)
   return (
     <>        
-    {login && <Layout open={open} setOpen={setOpen} admin={admin}/>} 
+    {login && <Layout open={open} setOpen={setOpen} admin={admin} fetchMemories={fetchMemories}/>} 
     <Routes>      
       <Route path='/' element={<CheckLogin Component={Login}/>} />
       <Route path='/login' element={<CheckLogin Component={Login}/>} />
@@ -105,8 +143,8 @@ console.log("likeCounts",likeCounts)
       <Route path='/resetpassword/:id' element={<CheckLogin Component={ResetPassword}/>} />
       <Route path='/userList' element={<Protected Component={UserList} open={open}/>} />    
       
-      <Route exact path='/home' element={<Protected Component={AllMemories} open={open} memories={memories} userLikedMemories={userLikedMemories} setUserLikedMemories={setUserLikedMemories} fetchMemories={fetchMemories} likeCounts={likeCounts} userLikeMemory={userLikeMemory} likeMemoryCounts={likeMemoryCounts}/>}/>
-      <Route exact path='/usermemories' element={<Protected Component={MyMemory} open={open} setOpen={setOpen} userLikedMemories={userLikedMemories} setUserLikedMemories={setUserLikedMemories} likeCounts={likeCounts} userLikeMemory={userLikeMemory} likeMemoryCounts={likeMemoryCounts}/>}/>
+      <Route exact path='/home' element={<Protected Component={AllMemories} open={open} memories={memories} userLikedMemories={userLikedMemories} setUserLikedMemories={setUserLikedMemories} fetchMemories={fetchMemories} likeCounts={likeCounts} userLikeMemory={userLikeMemory} likeMemoryCounts={likeMemoryCounts} setSearchValue={setSearchValue} searchValue={searchValue} showLikeUser={showLikeUser} likeUserListModal={likeUserListModal} setLikeUserListModal={setLikeUserListModal} likeUsersList={likeUsersList} loading={loading}/>}/>
+      <Route exact path='/usermemories' element={<Protected Component={MyMemory} open={open} setOpen={setOpen} userLikedMemories={userLikedMemories} setUserLikedMemories={setUserLikedMemories} likeCounts={likeCounts} userLikeMemory={userLikeMemory} likeMemoryCounts={likeMemoryCounts} setSearchValue={setSearchValue} searchValue={searchValue} showLikeUser={showLikeUser} likeUserListModal={likeUserListModal} setLikeUserListModal={setLikeUserListModal} likeUsersList={likeUsersList}/>}/>
 
       <Route exact path='/create' element={<Protected Component={CreateMemory} open={open} setOpen={setOpen} memories={memories} setMemories={setMemories} fetchMemories={fetchMemories}/>}/>
       {/* <Route exact path='/update' element={<Protected Component={CreateMemory} open={open} setOpen={setOpen} isUpdate={true} />}/> */}
