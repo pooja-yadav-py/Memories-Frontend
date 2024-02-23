@@ -1,0 +1,11 @@
+.loading-element{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+h5{
+    font-size: 72px;
+    background: -webkit-linear-gradient(#f44336, #9c27b0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

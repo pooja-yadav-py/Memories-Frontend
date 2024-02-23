@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Loading from "../Loading/loading";
 import Card from "@mui/material/Card";
+import {imageStyles} from '../../../style/global';
 import {
   Grid,
   Typography,
@@ -16,7 +18,7 @@ import CardMedia from "@mui/material/CardMedia";
 import DeleteIcon from "@mui/icons-material/Delete";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import CreateMemoryForm from "../CreateMemory/CreateMemoryForm";
-import LikeButton from "../AllMemories/LikeButton/LikeButton";
+import LikeButton from "../LikeButton/LikeButton";
 import Modal from "@mui/material/Modal";
 import Dialog from "@mui/material/Dialog";
 import SearchBar from "../searchBar/SearchBar";
@@ -67,7 +69,7 @@ function MyMemory(props) {
   const [openEdit, setOpenEdit] = useState(false);
   const [loading, setLoading] = useState(true);
   const [loginUserMemory, setLoginUserMemory] = useState([]);
-
+  const [res,setRes]= useState(false)
   const [openModalImage, setOpenModalImage] = useState(false);
   const [img, setImg] = useState("");
   const handleOpen = (e, item) => {
@@ -85,13 +87,13 @@ function MyMemory(props) {
   const classes = useStyles();
 
   useEffect(() => {
-    MemoryList();
+    fetchMyMemories();
     props.likeMemoryCounts();
-    props.userLikeMemory();
+    props.userLikeMemory();  
   }, []);
-
   // Function to fetch memories of the logged-in user
-  async function MemoryList() {
+  async function fetchMyMemories() {
+    console.log("=========fetchMyMemories==============")
     try {
       setLoading(true);
       const token = window.localStorage.getItem("token");
@@ -103,11 +105,12 @@ function MyMemory(props) {
 
       // Make API request to get user memories
       let result = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}usermemories`,
+        `${process.env.REACT_APP_BASE_URL}memories`,
         {
           params: {
             ...props.searchValue,
-            name: username,
+            name:username,
+            isMyMemory: true,
           },
           headers: headers,
         }
@@ -116,15 +119,16 @@ function MyMemory(props) {
       // Handle token expiration and Handle response statuses
       if (result.data.message === "Token Expired") {
         return alert("Token Expired");
-      } else if (result.status === 200) {
+      } else if (result.data.success === true) {
         setLoginUserMemory(result.data.data);
-      } else if (result.status === 404) {
+      } else if (result.data.success === false) {
         alert(result.data.message);
+        setRes(true);
       }
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false); // Set loading state to false when data fetching is complete
+      setLoading(false);
     }
   }
 
@@ -147,9 +151,10 @@ function MyMemory(props) {
         // Close modal,show alert and refresh memory list
         handleClose();
         alert(response.data.message);
-        MemoryList();
+        fetchMyMemories();
       } else if (response.status === 403) {
         alert(response.data.message);
+        setRes(true)
       }
     } catch (error) {
       console.log(error);
@@ -168,13 +173,10 @@ function MyMemory(props) {
     props.setLikeUserListModal(false);
   };
 
-  // console.log(loading,"loaing")
   return (
     <>
-      {loading ? (
-        <Box className="loading-element">
-          <Typography variant="h3">Loading...</Typography>
-        </Box>
+      {loading && res===false ? (
+        <Loading />
       ) : (
         <Container
           minwidth="sm"
@@ -185,7 +187,7 @@ function MyMemory(props) {
               <SearchBar
                 setSearchValue={props.setSearchValue}
                 searchValue={props.searchValue}
-                fetchMemories={MemoryList}
+                fetchMyMemories={fetchMyMemories}
               />
             </Grid>
           </Grid>
@@ -211,10 +213,7 @@ function MyMemory(props) {
                         height="250"
                         image={userMemory.selectedFile}
                         alt="green iguana"
-                        sx={{
-                          objectFit: "contain",
-                          backgroundColor: "#837ca74f",
-                        }}
+                        sx={imageStyles}
                         onClick={() => showMemoryImage(userMemory.selectedFile)}
                       />
                       <CardContent>
@@ -297,7 +296,7 @@ function MyMemory(props) {
                   isUpdate={true}
                   editUser={editUser}
                   handleClose={handleEditClose}
-                  MemoryList={MemoryList}
+                  fetchMyMemories={fetchMyMemories}
                 />
               </Box>
             </Modal>

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "../../../style/global.css";
 import "../searchBar/searchBar.css";
+import {imageStyles} from '../../../style/global';
+import Loading from "../Loading/loading";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import List from "@mui/material/List";
@@ -18,7 +20,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { makeStyles } from "@mui/styles";
-import LikeButton from "./LikeButton/LikeButton";
+import LikeButton from "../LikeButton/LikeButton";
 import SearchBar from "../searchBar/SearchBar";
 
 let drawerWidth = 240;
@@ -53,6 +55,7 @@ const MemoryCard = ({
   setLikeUserListModal,
   likeUsersList,
   loading,
+  res
 }) => {
   const classes = useStyles();
 
@@ -78,13 +81,11 @@ const MemoryCard = ({
   const handleCloseImage = () => {
     setOpenModalImage(false);
   };
-
+console.log(res)
   return (
     <>
-      {loading ? (
-        <Box className="loading-element">
-          <Typography variant="h3">Loading...</Typography>
-        </Box>
+      {loading && res===false? (
+        <Loading/>
       ) : (
         <Container className={open ? classes.appBarShift : classes.appbar}>
           <Grid container className="search-bar-container">
@@ -114,14 +115,7 @@ const MemoryCard = ({
                       height="250"
                       image={memory.selectedFile}
                       alt="Memory Image"
-                      sx={{
-                        objectFit: "contain",
-                        backgroundColor: "#837ca74f",
-                        transition: "transform 0.3s ease-in-out",
-                        "&:hover": {
-                          transform: "scale(1.2)",
-                        },
-                      }}
+                      sx={imageStyles}
                       onClick={() => showMemoryImage(memory.selectedFile)}
                     />
                     <CardContent>

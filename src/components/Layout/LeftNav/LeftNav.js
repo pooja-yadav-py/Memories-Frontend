@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
-
+import TimelineIcon from '@mui/icons-material/Timeline';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -75,12 +75,15 @@ function LeftNav(props) {
   let menus = [
     {name: "Memories", url:"/home", getIcon: () => <PermMediaIcon style={{ color: '#dd0f78', fontSize: '34px', }} />},
     {name: "My Memories", url:"/usermemories", getIcon: () => <FaceRetouchingNaturalIcon style={{ color: '#dd0f78', fontSize: '34px', }} />},
+    {name: "Chart", url:"/create-memory-chart", getIcon: () => <TimelineIcon style={{ color: '#dd0f78', fontSize: '34px', }}/>},
   ]
   
   let adminMenus = [
     {name: "Users", url:"/userList", getIcon: () => <PeopleIcon style={{ color: '#dd0f78', fontSize: '34px', }} />},
     {name: "Memories", url:"/home", getIcon: () => <PermMediaIcon style={{ color: '#dd0f78', fontSize: '34px', }} />},
     {name: "My Memories", url:"/usermemories", getIcon: () => <FaceRetouchingNaturalIcon style={{ color: '#dd0f78', fontSize: '34px', }} />}, 
+    {name: "Chart", url:"/create-memory-chart", getIcon: () => <TimelineIcon style={{ color: '#dd0f78', fontSize: '34px', }}/>},
+
   ]
   console.log("111admin",typeof admin)
   let result = (admin === "true" ? adminMenus : menus);
@@ -88,7 +91,9 @@ function LeftNav(props) {
 
   const handleClick = (menu) =>{
     console.log(menu)
-    props.fetchMemories()
+    
+    props.fetchMemories(true)
+    
   }
   return (
     <Box sx={{ display: 'flex' }}>

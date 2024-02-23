@@ -25,6 +25,10 @@ const LikeButton = ({memory, userLikedMemories, setUserLikedMemories,likeMemoryC
                     return item.memoryId!==memory._id
                 })
                 setUserLikedMemories([...filteredData]);
+            }else if (response.data.data === 'Token Expired'){
+                alert("Token Expired");
+                localStorage.clear();
+                window.location.href = '/login';
             }
             
             likeMemoryCounts();

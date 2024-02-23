@@ -13,7 +13,7 @@ import Protected from "./components/Protected";
 import CheckLogin from "./components/CheckLogin";
 import UserList from "./components/Layout/UsersList/UsersList";
 import MyMemory from "./components/Layout/MyMemory/MyMemory";
-
+import MemoryChart from './components/Layout/chart/chart';
 
 function App() {
   console.log("=========App");
@@ -26,6 +26,7 @@ function App() {
   const [likeCounts, setLikeCounts] = useState([]);
   const [userLikedMemories, setUserLikedMemories] = useState([]);
   const [likeUsersList,setLikeUsersList] = useState([]);
+  const [res,setRes]= useState(false)
 
   
   const [searchValue, setSearchValue] = useState({
@@ -39,15 +40,18 @@ function App() {
   
   // Function to fetch all memories
   async function fetchMemories() {
+    console.log("=--------alllllllllllllll==================")
     try {
         setLoading(true);
         const token = window.localStorage.getItem("token");
+
         const headers = {
             "content-Type": "application/json",
             "Authorization": `Bearer ${token}`
         };
+
         // Make API requests in parallel
-        const memoriesResponse = await axios.get(`${process.env.REACT_APP_BASE_URL}memories`,{
+         const memoriesResponse = await axios.get(`${process.env.REACT_APP_BASE_URL}memories`,{
           params: {
             ...searchValue,
           } ,
@@ -59,6 +63,7 @@ function App() {
           setMemories(memoriesResponse.data.data);
         }else if(memoriesResponse.data.success===false){
           alert(memoriesResponse.data.message)
+          setRes(true);
         }
         // Handle token expiration
         if (memoriesResponse.data.data === 'Token Expired'){
@@ -134,7 +139,7 @@ async function userLikeMemory() {
 }
   return (
     <>        
-    {login && <Layout open={open} setOpen={setOpen} admin={admin} fetchMemories={fetchMemories}/>} 
+    {login && <Layout open={open} setOpen={setOpen} admin={admin} fetchMemories={fetchMemories} setSearchValue={setSearchValue}/>} 
     <Routes>      
       <Route path='/' element={<CheckLogin Component={Login}/>} />
       <Route path='/login' element={<CheckLogin Component={Login}/>} />
@@ -143,11 +148,11 @@ async function userLikeMemory() {
       <Route path='/resetpassword/:id' element={<CheckLogin Component={ResetPassword}/>} />
       <Route path='/userList' element={<Protected Component={UserList} open={open}/>} />    
       
-      <Route exact path='/home' element={<Protected Component={AllMemories} open={open} memories={memories} userLikedMemories={userLikedMemories} setUserLikedMemories={setUserLikedMemories} fetchMemories={fetchMemories} likeCounts={likeCounts} userLikeMemory={userLikeMemory} likeMemoryCounts={likeMemoryCounts} setSearchValue={setSearchValue} searchValue={searchValue} showLikeUser={showLikeUser} likeUserListModal={likeUserListModal} setLikeUserListModal={setLikeUserListModal} likeUsersList={likeUsersList} loading={loading}/>}/>
+      <Route exact path='/home' element={<Protected Component={AllMemories} open={open} memories={memories} userLikedMemories={userLikedMemories} setUserLikedMemories={setUserLikedMemories} fetchMemories={fetchMemories} likeCounts={likeCounts} userLikeMemory={userLikeMemory} likeMemoryCounts={likeMemoryCounts} setSearchValue={setSearchValue} searchValue={searchValue} showLikeUser={showLikeUser} likeUserListModal={likeUserListModal} setLikeUserListModal={setLikeUserListModal} likeUsersList={likeUsersList} loading={loading} res={res}/>}/>
       <Route exact path='/usermemories' element={<Protected Component={MyMemory} open={open} setOpen={setOpen} userLikedMemories={userLikedMemories} setUserLikedMemories={setUserLikedMemories} likeCounts={likeCounts} userLikeMemory={userLikeMemory} likeMemoryCounts={likeMemoryCounts} setSearchValue={setSearchValue} searchValue={searchValue} showLikeUser={showLikeUser} likeUserListModal={likeUserListModal} setLikeUserListModal={setLikeUserListModal} likeUsersList={likeUsersList}/>}/>
 
       <Route exact path='/create' element={<Protected Component={CreateMemory} open={open} setOpen={setOpen} memories={memories} setMemories={setMemories} fetchMemories={fetchMemories}/>}/>
-      {/* <Route exact path='/update' element={<Protected Component={CreateMemory} open={open} setOpen={setOpen} isUpdate={true} />}/> */}
+      <Route exact path='/create-memory-chart' element={<Protected Component={MemoryChart} open={open} setOpen={setOpen} isUpdate={true} />}/>
 
                         
     </Routes>    

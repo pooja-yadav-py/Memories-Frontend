@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect,useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -6,8 +6,9 @@ import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
 import "./searchBar.css";
+import { buttonStyles,inputLabelStyles } from './styles';
 
-const SearchBar = ({ setSearchValue, searchValue, fetchMemories }) => {
+const SearchBar = ({ setSearchValue, searchValue, fetchMyMemories,fetchMemories }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const currentUrl = window.location.href;
   let c = currentUrl.split("/");
@@ -15,6 +16,7 @@ const SearchBar = ({ setSearchValue, searchValue, fetchMemories }) => {
   console.log(d);
   console.log(currentUrl.split("/").length);
 
+  
   const handleChange = (event) => {
     const { name, value } = event.target;
     setSearchValue({ ...searchValue, [name]: value });
@@ -32,13 +34,16 @@ const SearchBar = ({ setSearchValue, searchValue, fetchMemories }) => {
       searchValue[key] = searchValue[key].trim();
     });
     setSearchValue(searchValue);
-    // if(d==='usermemories'){
-
-    // }
-    fetchMemories();
+    if(d==='usermemories'){
+      fetchMyMemories();
+    }else{
+      fetchMemories();
+    }
+    
+    
   };
 
-  const handleClearAll = async () => {
+  const handleClearAll = () => {
     setSearchValue({
       name: "",
       tag: "",
@@ -56,7 +61,7 @@ const SearchBar = ({ setSearchValue, searchValue, fetchMemories }) => {
           alignItems: "center",
           "& > :not(style)": {
             marginRight: "10px",
-            width: "26ch",
+            width: "36ch",
             paddingRight: "0px",
           },
         }}
@@ -80,14 +85,7 @@ const SearchBar = ({ setSearchValue, searchValue, fetchMemories }) => {
               ),
             }}
             InputLabelProps={{
-              sx: {
-                "&.MuiInputLabel-root": {
-                  marginTop: "-9px",
-                },
-                "&.Mui-focused": {
-                  marginTop: "0px",
-                },
-              },
+              sx: inputLabelStyles,
             }}
             className="custom-textfield"
           />
@@ -108,14 +106,7 @@ const SearchBar = ({ setSearchValue, searchValue, fetchMemories }) => {
             ),
           }}
           InputLabelProps={{
-            sx: {
-              "&.MuiInputLabel-root": {
-                marginTop: "-9px",
-              },
-              "&.Mui-focused": {
-                marginTop: "0px",
-              },
-            },
+            sx: inputLabelStyles,
           }}
           className="custom-textfield"
         />
@@ -134,14 +125,7 @@ const SearchBar = ({ setSearchValue, searchValue, fetchMemories }) => {
             ),
           }}
           InputLabelProps={{
-            sx: {
-              "&.MuiInputLabel-root": {
-                marginTop: "-9px",
-              },
-              "&.Mui-focused": {
-                marginTop: "0px",
-              },
-            },
+            sx: inputLabelStyles,
           }}
           className="custom-textfield"
         />
@@ -163,14 +147,7 @@ const SearchBar = ({ setSearchValue, searchValue, fetchMemories }) => {
             ),
           }}
           InputLabelProps={{
-            sx: {
-              "&.MuiInputLabel-root": {
-                marginTop: "-9px",
-              },
-              "&.Mui-focused": {
-                marginTop: "0px",
-              },
-            },
+            sx:inputLabelStyles,
           }}
           className="custom-textfield"
         />
@@ -178,34 +155,14 @@ const SearchBar = ({ setSearchValue, searchValue, fetchMemories }) => {
 
       <Button
         variant="contained"
-        sx={{
-          backgroundColor: "#acbdbd",
-          fontWeight: "bold",
-          marginLeft: "10px",
-          marginTop: "-5px",
-          color: "black",
-          "&:hover": {
-            backgroundColor: "#cb3255",
-            color: "white",
-          },
-        }}
+        sx={buttonStyles}
         onClick={handleSearchClick}
       >
         <SearchIcon />
       </Button>
       <Button
         variant="contained"
-        sx={{
-          backgroundColor: "#acbdbd",
-          fontWeight: "bold",
-          marginLeft: "10px",
-          marginTop: "-5px",
-          color: "black",
-          "&:hover": {
-            backgroundColor: "#cb3255",
-            color: "white",
-          },
-        }}
+        sx={buttonStyles}
         onClick={handleClearAll}
       >
         Reset
