@@ -13,6 +13,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import PeopleIcon from '@mui/icons-material/People';
 import PermMediaIcon from '@mui/icons-material/PermMedia';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural'; 
 import "./LeftNavStyle.css";
 
@@ -75,15 +77,17 @@ function LeftNav(props) {
   let menus = [
     {name: "Memories", url:"/home", getIcon: () => <PermMediaIcon style={{ color: '#dd0f78', fontSize: '34px', }} />},
     {name: "My Memories", url:"/usermemories", getIcon: () => <FaceRetouchingNaturalIcon style={{ color: '#dd0f78', fontSize: '34px', }} />},
-    {name: "Chart", url:"/create-memory-chart", getIcon: () => <TimelineIcon style={{ color: '#dd0f78', fontSize: '34px', }}/>},
+    {name: "Created Memory Chart", url:"/create-memory-chart", getIcon: () => <TimelineIcon style={{ color: '#dd0f78', fontSize: '34px', }}/>},
+    {name: "Like Memory Chart",url:"/memories-menu",getIcon: () => <ThumbUpIcon style={{ color: '#dd0f78', fontSize: '34px', }}/>}
+
   ]
   
   let adminMenus = [
     {name: "Users", url:"/userList", getIcon: () => <PeopleIcon style={{ color: '#dd0f78', fontSize: '34px', }} />},
     {name: "Memories", url:"/home", getIcon: () => <PermMediaIcon style={{ color: '#dd0f78', fontSize: '34px', }} />},
     {name: "My Memories", url:"/usermemories", getIcon: () => <FaceRetouchingNaturalIcon style={{ color: '#dd0f78', fontSize: '34px', }} />}, 
-    {name: "Chart", url:"/create-memory-chart", getIcon: () => <TimelineIcon style={{ color: '#dd0f78', fontSize: '34px', }}/>},
-
+    {name: "Created Memory Chart", url:"/create-memory-chart", getIcon: () => <TimelineIcon style={{ color: '#dd0f78', fontSize: '34px', }}/>},
+    {name: "Like Memory Chart",url:"/memories-menu",getIcon: () => <ThumbUpIcon style={{ color: '#dd0f78', fontSize: '34px', }}/>}
   ]
   console.log("111admin",typeof admin)
   let result = (admin === "true" ? adminMenus : menus);

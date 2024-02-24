@@ -15,6 +15,10 @@
       margin-bottom: 10px;
       margin-top:-20px;
       display: flex;
+      
+  }
+  .search-bar-container form{
+    width: 83%;
   }
   .search-item{
     width: 100%;

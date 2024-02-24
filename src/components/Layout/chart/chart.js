@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from "react";
 import axios from "axios";
-import { borderColor, Container } from "@mui/system";
-import { Chart as Chartjs } from "chart.js/auto";
+import {  Container } from "@mui/system";
+import { Chart as Chartjs,defaults } from "chart.js/auto";
 import { Bar, Doughnut, Line } from "react-chartjs-2"; 
 import {
     Grid,
@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import sourceData from "./data/sourceData.json";
-import { blue } from "@mui/material/colors";
+// defaults.responsive=true;
 let drawerWidth = 240;
 const useStyles = makeStyles({
 appbar: {
@@ -39,7 +39,7 @@ function MemoryChart(props) {
 
             // Make API request to get user memories
             const result = await axios.get(
-                `${process.env.REACT_APP_BASE_URL}create-memory-chart`,{headers: headers}
+                `${process.env.REACT_APP_BASE_URL}memory/report/daywise`,{headers: headers}
             );
             if(result.data.success===true){
                 setShowChart(result.data.data)
@@ -72,8 +72,8 @@ function MemoryChart(props) {
                                 label: "memory",
                                 data: showChart && showChart.map((data) => data.count),
                                 backgroundColor:[
-                                    "rgb(255, 165, 0)",
-                                    "rgb(60, 179, 113)"
+                                    "rgb(128, 165, 0)",
+                                    "rgb(228, 128, 128)"
                                 ],
                                 barThickness: 36,
                                 borderRadius:1

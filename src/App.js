@@ -14,6 +14,7 @@ import CheckLogin from "./components/CheckLogin";
 import UserList from "./components/Layout/UsersList/UsersList";
 import MyMemory from "./components/Layout/MyMemory/MyMemory";
 import MemoryChart from './components/Layout/chart/chart';
+import MemoryLikesChart from "./components/Layout/chart/memoryLikeChart";
 
 function App() {
   console.log("=========App");
@@ -153,8 +154,7 @@ async function userLikeMemory() {
 
       <Route exact path='/create' element={<Protected Component={CreateMemory} open={open} setOpen={setOpen} memories={memories} setMemories={setMemories} fetchMemories={fetchMemories}/>}/>
       <Route exact path='/create-memory-chart' element={<Protected Component={MemoryChart} open={open} setOpen={setOpen} isUpdate={true} />}/>
-
-                        
+      <Route exact path='/memories-menu' element={<Protected Component={MemoryLikesChart} open={open} setOpen={setOpen} isUpdate={true} fetchMemories={fetchMemories} memories={memories}/>}/>                   
     </Routes>    
     </>
   );

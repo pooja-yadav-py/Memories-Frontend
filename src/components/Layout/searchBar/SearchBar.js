@@ -61,7 +61,7 @@ const SearchBar = ({ setSearchValue, searchValue, fetchMyMemories,fetchMemories 
           alignItems: "center",
           "& > :not(style)": {
             marginRight: "10px",
-            width: "36ch",
+            width: "80%",
             paddingRight: "0px",
           },
         }}
