@@ -19,3 +19,11 @@ export const card = {
     boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" ,
     
 }
+
+export const reportButton = {
+    backgroundColor: "#8a68c5",
+    marginRight: "5px",
+    "&:hover": {
+      backgroundColor: "#c35a74", 
+    },
+  }

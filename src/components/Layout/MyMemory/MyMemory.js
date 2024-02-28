@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Loading from "../Loading/loading";
 import Card from "@mui/material/Card";
-import {imageStyles} from '../../../style/global';
+import { imageStyles } from "../../../style/global";
 import {
   Grid,
   Typography,
@@ -67,9 +67,6 @@ function MyMemory(props) {
   const [editUser, setEditUser] = useState("");
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [loginUserMemory, setLoginUserMemory] = useState([]);
-  const [res,setRes]= useState(false)
   const [openModalImage, setOpenModalImage] = useState(false);
   const [img, setImg] = useState("");
   const handleOpen = (e, item) => {
@@ -87,50 +84,10 @@ function MyMemory(props) {
   const classes = useStyles();
 
   useEffect(() => {
-    fetchMyMemories();
+    props.fetchMyMemories();
     props.likeMemoryCounts();
-    props.userLikeMemory();  
+    props.userLikeMemory();
   }, []);
-  // Function to fetch memories of the logged-in user
-  async function fetchMyMemories() {
-    console.log("=========fetchMyMemories==============")
-    try {
-      setLoading(true);
-      const token = window.localStorage.getItem("token");
-      const username = window.localStorage.getItem("uname");
-      const headers = {
-        "content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      };
-
-      // Make API request to get user memories
-      let result = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}memories`,
-        {
-          params: {
-            ...props.searchValue,
-            name:username,
-            isMyMemory: true,
-          },
-          headers: headers,
-        }
-      );
-      console.log(result, "result");
-      // Handle token expiration and Handle response statuses
-      if (result.data.message === "Token Expired") {
-        return alert("Token Expired");
-      } else if (result.data.success === true) {
-        setLoginUserMemory(result.data.data);
-      } else if (result.data.success === false) {
-        alert(result.data.message);
-        setRes(true);
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  }
 
   // Function to remove a memory
   const removeMemory = async (e, deleteUser) => {
@@ -151,10 +108,10 @@ function MyMemory(props) {
         // Close modal,show alert and refresh memory list
         handleClose();
         alert(response.data.message);
-        fetchMyMemories();
+        props.fetchMyMemories();
       } else if (response.status === 403) {
         alert(response.data.message);
-        setRes(true)
+        props.setRes(true);
       }
     } catch (error) {
       console.log(error);
@@ -175,7 +132,7 @@ function MyMemory(props) {
 
   return (
     <>
-      {loading && res===false ? (
+      {props.loading && props.res === false ? (
         <Loading />
       ) : (
         <Container
@@ -187,12 +144,12 @@ function MyMemory(props) {
               <SearchBar
                 setSearchValue={props.setSearchValue}
                 searchValue={props.searchValue}
-                fetchMyMemories={fetchMyMemories}
+                fetchMyMemories={props.fetchMyMemories}
               />
             </Grid>
           </Grid>
           <Grid container>
-            {Object.keys(loginUserMemory).length === 0 ? (
+            {Object.keys(props.loginUserMemory).length === 0 ? (
               <Card sx={{ minWidth: 275, margin: "auto", color: "#673ab7" }}>
                 <CardContent>
                   <Typography sx={{ mb: 1.5 }} variant="h5" component="div">
@@ -204,7 +161,7 @@ function MyMemory(props) {
                 </CardContent>
               </Card>
             ) : (
-              loginUserMemory.map((userMemory) => (
+              props.loginUserMemory.map((userMemory) => (
                 <Grid xs={12} sm={6} lg={4} sx={{ marginBottom: "20px" }}>
                   <Card sx={{ maxWidth: 345 }}>
                     <CardActionArea>
@@ -296,7 +253,7 @@ function MyMemory(props) {
                   isUpdate={true}
                   editUser={editUser}
                   handleClose={handleEditClose}
-                  fetchMyMemories={fetchMyMemories}
+                  fetchMyMemories={props.fetchMyMemories}
                 />
               </Box>
             </Modal>
