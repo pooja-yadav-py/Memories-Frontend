@@ -58,7 +58,6 @@ function CreateMemoryForm(props) {
                      alert(response.data.message)
                 }
             } else {
-               
                 // Create new memory if isUpdate flag is false
                 let response = await axios.post(`${process.env.REACT_APP_BASE_URL}creatememory`, formData, { headers: headers })              
                 

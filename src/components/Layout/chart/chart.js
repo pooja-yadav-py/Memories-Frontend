@@ -18,7 +18,7 @@ const useStyles = makeStyles({
     marginLeft: "16%!important",
   },
 });
-function MemoryChart({props}) {
+function MemoryChart(props) {
   const classes = useStyles();
   const [showChart, setShowChart] = useState([]);
   const monthNames = [

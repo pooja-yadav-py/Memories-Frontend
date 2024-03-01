@@ -12,6 +12,7 @@ import AllMemories from "./components/Layout/AllMemories/AllMemories";
 import Protected from "./components/Protected";
 import CheckLogin from "./components/CheckLogin";
 import UserList from "./components/Layout/UsersList/UsersList";
+import MemoryList from "./components/Layout/MemoryList/memoryList"
 import MyMemory from "./components/Layout/MyMemory/MyMemory";
 import MemoryChart from "./components/Layout/chart/chart";
 import MemoryLikesChart from "./components/Layout/chart/memoryLikeChart";
@@ -214,6 +215,10 @@ function App() {
         <Route
           path="/userList"
           element={<Protected Component={UserList} open={open} />}
+        />
+        <Route
+          path="/memoriesList"
+          element={<Protected Component={MemoryList} open={open} fetchMemories={fetchMemories}/>}
         />
 
         <Route
